@@ -1,30 +1,25 @@
-import panelList from "@/views/pannelList.vue";
-import Form from '@/views/nav1/Form.vue'
-import User from '@/views/nav1/user.vue'
-import Echarts from '@/views/charts/echarts.vue'
-
 export const menuList = [
     {
         path: "/home",
-        component: panelList,
         name: "我的可視化",
         iconCls: "fa fa-bar-chart",
+        component: () => import(/* webpackChunkName: "manage" */ "@/views/pannelList.vue"),
     },
     {
         path: "/data",
-        component: Form,
         name: "我的数据",
         iconCls: "fa fa-database",
+        component: () => import(/* webpackChunkName: "data" */ "@/views/nav1/Form.vue"),
     },
     {
         path: "/components",
-        component: User,
+        component: () => import(/* webpackChunkName: "components" */ "@/views/nav1/user.vue"),
         name: "我的组件库",
         iconCls: "fa fa-address-card",
     },
     {
         path: "/examples",
-        component: Echarts,
+        component: () => import(/* webpackChunkName: "examples" */ "@/views/charts/echarts.vue"),
         name: "优秀案例教程",
         iconCls: "fa fa-book",
     },
