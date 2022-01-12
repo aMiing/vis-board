@@ -84,7 +84,7 @@
                   <el-col :span="7">
                     <div
                       class="grid-content bg-purple-light"
-                      @click="previewScreen(pannel.id)"
+                      @click="preview(pannel.id)"
                     >
                       <i class="iconfont icon-view" title="预览">预览</i>
                     </div>
@@ -167,8 +167,8 @@ export default {
     openWindow(id) {
       window.open("http://localhost:8080/#/edit?id=" + id, "_blank");
     },
-    previewScreen(id) {
-      window.open("http://localhost:8080/#/previewScreen?id=" + id, "_blank");
+    preview(id) {
+      window.open("http://localhost:8080/#/preview?id=" + id, "_blank");
     },
     showEdit(index) {
       this.$refs.dialog[index].style.opacity = 1;

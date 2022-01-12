@@ -11,8 +11,8 @@ let routes = [
         hidden: true,
     },
     {
-        path: "/previewScreen",
-        component: () => import(/* webpackChunkName: "preview-screen" */ "@/views/previewScreen.vue"),
+        path: "/preview",
+        component: () => import(/* webpackChunkName: "preview-screen" */ "@/views/preview/index.vue"),
         name: "预览",
         hidden: true,
     },

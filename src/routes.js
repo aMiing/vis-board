@@ -2,7 +2,7 @@ import Login from './views/Login.vue'
 import NotFound from './views/404.vue'
 import Home from './views/Home.vue'
 import EditScreen from './views/edit'
-import previewScreen from './views/previewScreen.vue'
+import preview from './views/preview.vue'
 
 let routes = [
     {
@@ -25,8 +25,8 @@ let routes = [
         hidden: true
     },
     {
-        path: '/previewScreen',
-        component: previewScreen,
+        path: '/preview',
+        component: preview,
         name: '',
         hidden: true
     },

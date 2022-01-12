@@ -235,7 +235,7 @@ export default {
 }
 //
 .container {
-  background: #171b22;
+  // background: #171b22;
   position: absolute;
   top: 0px;
   overflow-y: scroll;

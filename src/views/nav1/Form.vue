@@ -70,7 +70,5 @@
 
 </script>
 <style>
-	.container .main .content-container .content-wrapper[data-v-e3f189f8]{
-		background-color: #171b22;
-	}
+	
 </style>

@@ -41,7 +41,6 @@ import dashbord from "@/components/widgets/dashbord";
 import seriesDashbord from "@/components/widgets/seriesDashbord";
 import borderWidget from "@/components/widgets/border";
 import iconFont from "@/components/widgets/iconFont";
-//console.log(commonTitle);
 export default {
   components: {
     commonTitle,
