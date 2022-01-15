@@ -65,7 +65,7 @@ import commonHeader from "./components/header";
 import configPage from "./components/config-page";
 import layerPage from "./components/layer";
 import mainScreen from "./components/main-screen";
-import { mapGetters } from "vuex";
+
 export default {
   components: {
     VueDragResizeRotate,
@@ -106,11 +106,6 @@ export default {
       ],
     };
   },
-  computed: {
-    ...mapGetters("panel", {
-      pageComponents: "getElements",
-    }),
-  },
   // watch
   created: function () {
     this.fullscreenLoading = true;
@@ -132,16 +127,6 @@ export default {
     console.log("this.pageComponents", this.pageComponents);
   },
   mounted: function () {
-    /*初始化屏幕尺寸*/
-    let screenPannel = document.getElementsByClassName("screenPannel")[0];
-    screenPannel.style.height = screenPannel.clientWidth * 0.6 + "px";
-    console.log(this.screenSet);
-    /*当窗口大小改变时改变屏幕尺寸*/
-    window.onresize = function () {
-      screenPannel.style.height = screenPannel.clientWidth * 0.6 + "px";
-    };
-
-    //console.log(screenPannel.clientHeight);
     var user = sessionStorage.getItem("user");
     if (user) {
       user = JSON.parse(user);
@@ -167,7 +152,6 @@ export default {
   },
   beforeUpdate: function () {
     let screenPannel = document.getElementsByClassName("screenPannel")[0];
-    screenPannel.style.height = screenPannel.clientWidth * 0.6 + "px";
     // this.screenBgImg = this.screenSet.bgimg;
   },
   updated: function () {

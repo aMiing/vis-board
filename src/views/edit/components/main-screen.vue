@@ -45,6 +45,8 @@ import borderWidget from "@/components/widgets/border";
 import iconFont from "@/components/widgets/iconFont";
 
 import screen from "@/configs/screen.js";
+import { mapGetters } from "vuex";
+import { debounce } from "lodash";
 export default {
   components: {
     CommonText,
@@ -68,9 +70,13 @@ export default {
   data() {
     return {
       screen,
+      resizeDebounce: debounce(this.stageResize, 300),
     };
   },
   computed: {
+    ...mapGetters("panel", {
+      pageComponents: "getElements",
+    }),
     screenConfig() {
       const {
         width,
@@ -89,8 +95,16 @@ export default {
   },
   mounted() {
     //   监听resize，缩放画布
-    
-
+    window.addEventListener("resize", resizeDebounce);
+  },
+  beforeDestroy() {
+    window.removeEventListener("resize", resizeDebounce);
+  },
+  methods: {
+    stageResize() {
+      const parentRect = this.$refs.screen.parentNode.getBoundingClientRect();
+      console.log("parentRect", parentRect);
+    },
   },
 };
 </script>
