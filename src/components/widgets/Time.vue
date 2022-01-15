@@ -19,7 +19,7 @@
 			</el-button>
 		</div>
 		<div class="timer" style="position:absolute;width:100%;display:table;text-align: center;height: 100%;" 
-			:style="{fontWeight:item.fontWeight*10,fontFamily:item.fontValue,fontSize:item.fontSize/20+'vw',textAlign:item.textAlign,lineHeight:item.height+'px',color:item.fontColor}" :format="item.format">
+			:style="{fontWeight:item.fontWeight*10,fontFamily:item.fontFamily,fontSize:item.fontSize/20+'vw',textAlign:item.textAlign,lineHeight:item.height+'px',color:item.fontColor}" :format="item.format">
 			<div style="display:table-cell;vertical-align: middle;">
 				<i class="el-icon-time">&nbsp;</i><span class="timeText">{{item.time}}</span>
 			</div>

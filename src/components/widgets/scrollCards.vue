@@ -20,7 +20,7 @@
 		</div>
 		<div ref="titleText" style="position:absolute;width:100%;display:table;height: 100%;">
 			<div style="display:table-cell;vertical-align: middle;"
-			:style="{fontWeight:item.fontWeight*10,fontFamily:item.fontValue,fontSize:item.fontSize/20+'vw',color:item.fontColor}">
+			:style="{fontWeight:item.fontWeight*10,fontFamily:item.fontFamily,fontSize:item.fontSize/20+'vw',color:item.fontColor}">
 				  <el-carousel :interval="4000" :type="item.Type" :height="scrollHeight">
 				    <el-carousel-item >
 					    <!-- <h3 style="line-height: 200px;margin:0;"> card </h3> -->

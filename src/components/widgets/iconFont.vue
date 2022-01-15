@@ -19,7 +19,7 @@
 			</el-button>
 		</div>
 		<div ref="titleText" style="position:absolute;width:100%;display:table;text-align: center;height: 100%;" 
-			:style="{fontFamily:item.fontValue,textAlign:item.textAlign}">
+			:style="{fontFamily:item.fontFamily,textAlign:item.textAlign}">
 			<div style="display:table-cell;vertical-align: middle;">
 				<i class="iconFont iconfont icon-iconFont" style=" background: linear-gradient(to right, white, blue);-webkit-background-clip: text;color: transparent;" :style="{fontSize:item.fontSize/20+'vw',fontWeight:item.fontWeight*10}"></i>
 			</div>

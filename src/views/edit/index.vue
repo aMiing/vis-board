@@ -1,136 +1,78 @@
 <template>
-  <el-row class="edit-container">
+  <div class="edit-container">
     <!-- 头部功能区 -->
-    <common-header></common-header>
-
-    <el-col :span="24" class="main">
-      <!-- 折叠按钮 -->
-      <el-button
-        @click.prevent="collapse"
-        style="
-          position: fixed;
-          z-index: 9;
-          left: 0px;
-          margin-top: 6px;
-          border-left: 0;
-          text-align: center;
-          padding: 8px;
-          background-color: #1b1f25;
-          border: 1px solid #444;
-        "
-      >
-        <i :class="collapseIcon" @click="changeIcon()" title="折叠/展开"></i>
-      </el-button>
-      <layerPage />
-
-      <section
-        class="content-container"
-        ref="mainPannel"
-        @click="screenSetting()"
-      >
-        <div
-          class="mainPannel"
-          style="width: 96%; height: auto; margin: 2%; box-shadow: 0 0 2px red"
+    <header>
+      <common-header></common-header>
+    </header>
+    <!-- 主功能区 -->
+    <main class="main">
+      <!-- 左侧层级区域 -->
+      <aside class="layer">
+        <!-- 折叠按钮 -->
+        <el-button
+          @click.prevent="collapse"
+          style="
+            position: fixed;
+            z-index: 9;
+            left: 0px;
+            margin-top: 6px;
+            border-left: 0;
+            text-align: center;
+            padding: 8px;
+            border: 1px solid #444;
+          "
         >
-          <!-- 操作面板 -->
-          <div
-            ref="pannel"
-            class="screenPannel"
-            :style="{
-              backgroundColor: ScreenBgColor,
-              backgroundImage: screenBgImg,
-            }"
-          >
-            <div
-              class="component"
-              v-for="item in pageComponents"
-              :key="item.id"
-            >
-              <template
-                :is="tem.attribute"
-                :item="item"
-                @loadSetting="loadSetting"
-                @changeSize="changeSize"
-                @changePosition="changePosition"
-                @deleate="deleate"
-              >
-              </template>
-            </div>
-          </div>
-        </div>
+          <i :class="collapseIcon" @click="changeIcon()" title="折叠/展开"></i>
+        </el-button>
+        <layerPage />
+      </aside>
+      <!-- 中心舞台 -->
+      <section class="screen-content" @click="screenSetting()">
+        <mainScreen />
       </section>
-      <!-- 右侧设置面板	
-		右侧折叠按钮 -->
-      <el-button
-        @click.prevent="collapse2"
-        style="
-          position: fixed;
-          z-index: 9;
-          right: 0px;
-          margin-top: 6px;
-          border-right: 0;
-          text-align: center;
-          padding: 8px;
-          background-color: #1b1f25;
-          border: 1px solid #444;
-        "
-      >
-        <i :class="collapseIcon2" @click="changeIcon2()" title="折叠/展开"></i>
-      </el-button>
-      <configPage />
-    </el-col>
-  </el-row>
+      <!-- 右侧设置面板 -->
+      <aside class="config-panel">
+        <el-button
+          @click.prevent="collapse2"
+          style="
+            position: fixed;
+            z-index: 9;
+            right: 0px;
+            margin-top: 6px;
+            border-right: 0;
+            text-align: center;
+            padding: 8px;
+            background-color: #1b1f25;
+            border: 1px solid #444;
+          "
+        >
+          <i
+            :class="collapseIcon2"
+            @click="changeIcon2()"
+            title="折叠/展开"
+          ></i>
+        </el-button>
+        <configPage />
+      </aside>
+    </main>
+  </div>
 </template>
 
 <script>
-var i,
-  h = 0;
-var lastId;
-var percentWidth;
-var percentHeight;
-import commonTitle from "@/components/widgets/CommonTitle";
-import linesText from "@/components/widgets/linesText";
-import Time from "@/components/widgets/Time";
-import scrollText from "@/components/widgets/scrollText";
-import scrollCards from "@/components/widgets/scrollCards";
-import lineChart from "@/components/widgets/lineChart";
-import radarChart from "@/components/widgets/radarChart";
-import barChart from "@/components/widgets/barChart";
-import horizontalBarChart from "@/components/widgets/horizontalBarChart";
-import pieChart from "@/components/widgets/pieChart";
-import ringChart from "@/components/widgets/ringChart";
-import pointChart from "@/components/widgets/pointChart";
-import mapChart from "@/components/widgets/mapChart";
-import dashbord from "@/components/widgets/dashbord";
-import seriesDashbord from "@/components/widgets/seriesDashbord";
-import borderWidget from "@/components/widgets/border";
-import iconFont from "@/components/widgets/iconFont";
+import VueDragResizeRotate from "@gausszhou/vue-drag-resize-rotate";
 
 import commonHeader from "./components/header";
 import configPage from "./components/config-page";
 import layerPage from "./components/layer";
+import mainScreen from "./components/main-screen";
+import { mapGetters } from "vuex";
 export default {
   components: {
+    VueDragResizeRotate,
     commonHeader,
     configPage,
     layerPage,
-    commonTitle,
-    linesText,
-    Time,
-    scrollText,
-    scrollCards,
-    lineChart,
-    radarChart,
-    barChart,
-    horizontalBarChart,
-    pieChart,
-    ringChart,
-    pointChart,
-    mapChart,
-    dashbord,
-    seriesDashbord,
-    borderWidget,
-    iconFont,
+    mainScreen,
   },
   data() {
     return {
@@ -164,13 +106,30 @@ export default {
       ],
     };
   },
-  beforeCreate: function () {
-    this.fullscreenLoading = true;
+  computed: {
+    ...mapGetters("panel", {
+      pageComponents: "getElements",
+    }),
   },
+  // watch
   created: function () {
+    this.fullscreenLoading = true;
     // 获取tabItems、pageComponents数据
-    this.tabItems = [];
-    this.pageComponents = [];
+    // this.pageComponents = [
+    //   {
+    //     label: "文本",
+    //     name: "commonText",
+    //     component: "common-text",
+    //     color: "#fff",
+    //     fontSize: 14,
+    //     fontWeight: 400,
+    //     fontFamily: "",
+    //     text: "我是通用文本组件",
+    //     textAlign: "center",
+    //     id: "a2e84f8ae81d8",
+    //   },
+    // ];
+    console.log("this.pageComponents", this.pageComponents);
   },
   mounted: function () {
     /*初始化屏幕尺寸*/
@@ -216,6 +175,17 @@ export default {
   },
   activabled: function () {},
   methods: {
+    resizing({ x, y, w, h }, item) {
+      // item.posX = x;
+      // item.posY = y;
+      item.width = w;
+      item.height = h;
+    },
+    moveIt({ x, y, target }) {
+      target.posY = y;
+      target.posX = x;
+      console.log(target, x, y);
+    },
     saveChange() {
       /*	let url_saveScreen = 'http://localhost:8888/saveScreenSetting';
 					this.screenSet.bgcolor = this.ScreenBgColor;
@@ -374,9 +344,9 @@ export default {
     },
     screenSetting() {
       //框定除了编辑面板之外的部分
-      this.$refs.pannel.onclick = function (e) {
-        e.stopPropagation();
-      };
+      // this.$refs.pannel.onclick = function (e) {
+      //   e.stopPropagation();
+      // };
       var pageSetting = document.getElementsByClassName("pageSetting")[0];
       var widgetSetting = document.getElementsByClassName("widgetSetting")[0];
       //去除元素选中状态
@@ -396,75 +366,6 @@ export default {
       pageSetting.style.display = "block";
       widgetSetting.style.display = "none";
       //console.log();
-    },
-    UseIt(item, index) {
-      i =
-        this.pageComponents.length != 0
-          ? parseInt(
-              this.pageComponents[this.pageComponents.length - 1].uid.slice(4)
-            ) + 1
-          : this.pageComponents.length;
-      console.log("i:" + i);
-      //i++;//重要参数
-      //插入控件，保存到数据库，并从数据库中检索出返回给data，重新渲染界面
-      //uid可以是从数据库里取出的pageControlId.
-      this.showSetting = "uid_" + i;
-      console.log(item);
-      var widgetJson = JSON.parse(item.styleJson);
-      console.log(widgetJson);
-      let bindId = window.location.href.split("=")[1];
-      //ajax发送到数据库的数据
-      let url = "http://localhost:8888/addBindWidgets";
-      this.$http
-        .post(
-          url,
-          {
-            uid: "uid_" + i,
-            name: item.name,
-            bindId: bindId,
-            styleJson: item.styleJson,
-            dataJson: item.dataJson,
-            layer: i,
-          },
-          { emulateJSON: true }
-        )
-        .then((req, res) => {
-          console.log(res.bodyText);
-        })
-        .catch((err) => {
-          console.log(
-            "未能成功发送新增widget数据，请联系系统维护人员或稍后重试！"
-          );
-          return;
-        });
-
-      //直接加到data里的数据是不可信的，我们需要重新从服务器加载数据回来
-      let reload_url = window.location.href.replace("8080/#", "8888");
-      // console.log(url);
-      this.$http.get(reload_url).then(
-        function (res) {
-          let res_arr = res.bodyText.split(";"); //两部分数据混在一起，进行拆分
-          console.log(res_arr);
-          let BindWidget = JSON.parse(res_arr[1]);
-          console.log(BindWidget);
-          let _self = this;
-          this.pageComponents = [];
-          for (var i = 0; i < BindWidget.length; i++) {
-            console.log(BindWidget[i].styleJson);
-            let json = JSON.parse(BindWidget[i].styleJson);
-            json["id"] = BindWidget[i].id;
-            json["uid"] = BindWidget[i].uid;
-            json["dataJson"] = BindWidget[i].dataJson;
-            json["layer"] = BindWidget[i].layer;
-            _self.pageComponents.push(json);
-          }
-          console.log(this.pageComponents);
-        },
-        function (res) {
-          console.log("请求超时！");
-          return;
-        }
-      );
     },
     changeIcon() {
       console.log(this.collapsed1);
@@ -755,6 +656,32 @@ i {
   width: 100%;
   box-shadow: 0 0 2px #8bf;
   position: relative;
+  .component > div {
+    // position: absolute;
+    // top: 40%;
+    // left: 40%;
+    // &::after {
+    //   position: absolute;
+    //   top: 0;
+    //   left: 0;
+    //   content: "";
+    //   width: 100%;
+    //   height: 100%;
+    //   background: #000;
+    //   opacity: 0;
+    //   // z-index:
+    // }
+    // &:hover {
+    //   cursor: all-scroll;
+    //   z-index: 9999;
+    //   &::after {
+    //     opacity: 0.15;
+    //     border: 1px dashed #eee;
+    //     top: -1px;
+    //     left: -1px;
+    //   }
+    // }
+  }
 }
 .input-num {
   width: 90px;
@@ -862,14 +789,12 @@ aside {
   position: absolute;
   top: 0px;
   bottom: 0px;
-  width: 100%;
+  right: 0;
+  left: 0;
   .main {
     display: flex;
-    // background: #324057;
-    position: absolute;
-    top: 40px;
-    bottom: 0px;
-    overflow: hidden;
+    justify-content: space-between;
+    width: 100%;
     el-button {
       cursor: pointer;
     }
@@ -913,7 +838,7 @@ aside {
       flex: 0 0 360px;
       width: 360px;
     }
-    .content-container {
+    .screen-content {
       // background: #f1f2f7;
       flex: 1;
       // position: absolute;

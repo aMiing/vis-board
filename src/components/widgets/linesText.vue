@@ -19,7 +19,7 @@
 			</el-button>
 		</div>
 		<div ref="titleText" style="position:absolute;width:100%;text-align: center;height: 100%;" 
-			:style="{fontWeight:item.fontWeight*10,fontFamily:item.fontValue,fontSize:item.fontSize/20+'vw',textAlign:item.textAlign,lineHeight:item.lineHeight/10+'em'}">
+			:style="{fontWeight:item.fontWeight*10,fontFamily:item.fontFamily,fontSize:item.fontSize/20+'vw',textAlign:item.textAlign,lineHeight:item.lineHeight/10+'em'}">
 			<div>
 				<span class="tab" style="height:10px;display: inline-block;" :style="{width:item.tabWidth+'vw'}"></span><span class="connect"  :style="{color:item.fontColor}">{{item.text}}</span>
 			</div>
@@ -30,6 +30,7 @@
 
 <script>
 	export default {
+		name: 'LinesText',
 		props:['item'],
 		data() {
 			return {

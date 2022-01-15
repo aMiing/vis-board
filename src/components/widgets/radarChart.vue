@@ -18,7 +18,7 @@
 			</el-button>
 		</div>
 		<div ref="radarChart" style="position:absolute;width:100%;display:table;text-align: center;height: 100%;" 
-			:style="{fontWeight:item.fontWeight*10,fontFamily:item.fontValue,fontSize:item.fontSize/20+'vw',textAlign:item.textAlign}">
+			:style="{fontWeight:item.fontWeight*10,fontFamily:item.fontFamily,fontSize:item.fontSize/20+'vw',textAlign:item.textAlign}">
 			<ve-radar :data="chartData" :width="chartWidth" :height="chartHeight" :extend="chartExtend"  :settings="chartSettings"></ve-radar>
 			
 		</div>
@@ -131,7 +131,7 @@
 						textStyle:{
 							color:this.item.fontColor,
 							fontWeight:this.item.fontWeight,
-							fontFamily:this.item.fontValue,
+							fontFamily:this.item.fontFamily,
 							fontSize:this.item.fontSize
 						}
 					}

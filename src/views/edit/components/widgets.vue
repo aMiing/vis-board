@@ -8,102 +8,69 @@
       active-text-color="#6bf"
       default-active="1"
     >
-      <el-submenu v-for="(item, index) in widgesList" :key="item.name">
-        <template slot="title"
-          ><i :class="item.icon" :title="item.name"></i
-        ></template>
-        <el-tabs
-          tab-position="left"
-          value="all"
-          style="min-height: 240px; width: 640px"
-        >
-          <el-tab-pane label="全部" title="全部" name="all">
-            <div class="Charts">
-              <div
-                class="components-item"
-                v-for="widget in item.widgets"
-                :key="widget.id"
-                @click="UseIt(widget)"
-              >
-                <img :src="widget.img" :alt="widget.name" :title="widget.name" />
-                <p style="line-height: 16px; width: 100%; margin: 0">
-                  {{ widget.name }}
-                </p>
-              </div>
-            </div>
-          </el-tab-pane>
-          <el-tab-pane
-            :label="child"
-            :title="child"
-            v-for="(child, childIndex) in item.childTab"
-            :key="child.name"
+      <el-submenu
+        v-for="item in widgetTabs"
+        :key="item.name"
+        :index="item.name"
+      >
+        <template slot="title">
+          <i :class="item.icon" :title="item.name"></i>
+        </template>
+        <div class="charts-content">
+          <div
+            class="chart"
+            v-for="widget in item.widgets"
+            :key="widget.name"
+            @click="UseIt(widget)"
           >
-            <div class="barChart">
-              <div
-                class="components-item"
-                v-for="item in widgets"
-                v-if="
-                  item.widgetsGroupId == index + '' + childIndex &&
-                  item.usable == 1
-                "
-                @click="UseIt(item)"
-              >
-                <img :src="item.img" :alt="item.name" :title="item.name" />
-                <p style="line-height: 18px; width: 100%; margin: 0">
-                  {{ item.name }}
-                </p>
-              </div>
-              <div
-                class="components-item"
-                v-for="item in widgets"
-                v-if="
-                  item.widgetsGroupId == index + '' + childIndex &&
-                  item.usable == 0
-                "
-              >
-                <div
-                  class="dialog"
-                  style="
-                    width: 120px;
-                    height: 90px;
-                    position: absolute;
-                    background-color: rgba(25, 25, 25, 0.7);
-                    color: #fff;
-                    text-align: center;
-                    vertical-align: middle;
-                    display: table;
-                  "
-                >
-                  <i class="iconfont icon-suo1" style="line-height: 90px"></i>
-                </div>
-                <img :src="item.img" :alt="item.name" :title="item.name" />
-                <p style="line-height: 18px; width: 100%; margin: 0">
-                  {{ item.name }}
-                </p>
-              </div>
-            </div>
-          </el-tab-pane>
-        </el-tabs>
+            <img class="chart-img" :src="widget.img" />
+            <div class="chart-label">{{ widget.label }}</div>
+          </div>
+        </div>
       </el-submenu>
     </el-menu>
   </div>
 </template>
 
 <script>
+import widgetsConfig from "@/configs/widgets/index";
+import { mapActions, mapGetters } from "vuex";
+
 export default {
   data() {
     return {
-      widgesList: [
+      widgetTabs: [
         {
           label: "基础组件",
           name: "common",
           icon: "fa fa-bar-chart",
           widgets: [
-              {
-                  id: 123,
-                  img: '@/assets/widgets/3D-map.png'
-              }
-          ]
+            {
+              label: "文本",
+              name: "commonText",
+              img: require("@/assets/widgets/3D-map.png"),
+            },
+            {
+              label: '滚动字幕',
+              name: 'scrollText',
+              img: require("@/assets/widgets/scrollText.png"),
+            },
+            {
+              label: '多行文本',
+              name: 'linesText',
+              img: require("@/assets/widgets/linesText.png"),
+            },
+            {
+              label: '时间控件',
+              name: 'Time',
+              img: require("@/assets/widgets/time.png"),
+            },
+            {
+              label: "图片",
+              name: "commonImage",
+              img: require("@/assets/widgets/image.png"),
+            },
+          ],
         },
         {
           label: "图表",
@@ -111,8 +78,8 @@ export default {
           icon: "fa fa-bar-chart",
         },
         {
-          label: "仿真图形",
-          name: "images",
+          label: "仿真模型",
+          name: "model",
           icon: "fa fa-bar-chart",
         },
         {
@@ -121,8 +88,52 @@ export default {
           icon: "fa fa-bar-chart",
         },
       ],
-      widgets: [],
     };
+  },
+  computed: {
+    ...mapGetters("panel", ["getElements"]),
+    widgets() {
+      return this.widgetTabs.map((e) => e.widgets);
+    },
+  },
+  methods: {
+    ...mapActions("panel", ["addElements"]),
+    async UseIt(widget) {
+      const randomId = Math.random().toString(16).slice(2);
+      //   从配置项中获取基础配置
+      const _widget = {
+        ...widget,
+        ...widgetsConfig[widget.name],
+        id: randomId,
+      };
+      console.log("_widget", _widget);
+      await this.addElements(_widget);
+      console.log(this.getElements);
+    },
   },
 };
 </script>
+
+<style lang="scss" scoped>
+.charts-content {
+  display: flex;
+  justify-content: start;
+  text-align: center;
+  padding: 16px;
+  .chart {
+    flex: 0 1 140px;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 0 2px red;
+    .chart-img {
+      height: 84px;
+      width: 140px;
+      object-fit: scale-down;
+    }
+    .chart-label {
+      //    height: 30px;
+      padding: 5px;
+    }
+  }
+}
+</style>

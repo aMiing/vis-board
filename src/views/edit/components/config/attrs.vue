@@ -49,7 +49,7 @@
             <el-collapse-item title="文本样式" name="1" >
             <el-form>
                 <el-form-item label="字体">
-                <el-select v-model="data.fontValue" placeholder="请选择字体" @change="changeStyle(data.id)">
+                <el-select v-model="data.fontFamily" placeholder="请选择字体" @change="changeStyle(data.id)">
                     <el-option v-for="item in fontOptions" :key="item.value" :label="item.label" :value="item.value">
                     
                     </el-option>

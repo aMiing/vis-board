@@ -74,7 +74,6 @@ export default {
 <style scoped lang="scss">
 .common-header {
   height: 40px;
-  line-height: 40px;
   background: #1b1f25;
   color: #fff;
 
@@ -128,10 +127,10 @@ export default {
     }
   }
   .backBtn {
-    height: 60px;
+    height: 40px;
+    line-height: 40px;
     font-size: 22px;
-    padding-left: 20px;
-    padding-right: 20px;
+    padding: 0 20px;
     img {
       width: 40px;
       float: left;

@@ -12,7 +12,7 @@
     <!-- 增加一个大框，阻止鼠标的事件触发 -->
     <div v-for="item in pageComponents" :key="item.id">
       <template
-        :is="item.attribute"
+        :is="item.name"
         :item="item"
         @loadSetting="loadSetting"
         @changeSize="changeSize"
@@ -24,7 +24,7 @@
 </template>
 
 <script>
-import commonTitle from "@/components/widgets/CommonTitle";
+import commonTitle from "@/components/widgets/commonTitle";
 import linesText from "@/components/widgets/linesText";
 import Time from "@/components/widgets/Time";
 import scrollText from "@/components/widgets/scrollText";

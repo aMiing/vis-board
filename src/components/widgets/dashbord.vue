@@ -18,7 +18,7 @@
 			</el-button>
 		</div>
 		<div ref="barChart" style="position:absolute;width:100%;display:table;text-align: center;height: 100%;" 
-			:style="{fontWeight:item.fontWeight*10,fontFamily:item.fontValue,fontSize:item.fontSize/20+'vw',textAlign:item.textAlign}">
+			:style="{fontWeight:item.fontWeight*10,fontFamily:item.fontFamily,fontSize:item.fontSize/20+'vw',textAlign:item.textAlign}">
 			<ve-gauge :data="chartData" :width="chartWidth" :height="chartHeight" :extend="chartExtend" :settings="chartSettings"></ve-gauge>
 			
 		</div>
@@ -49,7 +49,7 @@
 			              }
 			            },
 			            axisLabel: {
-		            	  fontFamily:this.item.fontValue,
+		            	  fontFamily:this.item.fontFamily,
 		            	  fontWeight:this.item.fontWeight,
 		            	  fontSize:this.item.fontSize,
 			              color:this.item.fontColor,
@@ -138,8 +138,8 @@
 			'item.fontSize':function(){
 				this.chartSettings.seriesMap['速度'].axisLabel.fontSize = this.item.fontSize;
 			},
-			'item.fontValue':function(){
-				this.chartSettings.seriesMap['速度'].axisLabel.fontFamily = this.item.fontValue;
+			'item.fontFamily':function(){
+				this.chartSettings.seriesMap['速度'].axisLabel.fontFamily = this.item.fontFamily;
 			},
 			'item.fontColor':function(){
 				this.chartSettings.seriesMap['速度'].axisLabel.color = this.item.fontColor;
