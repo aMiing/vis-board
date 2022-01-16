@@ -1,26 +1,16 @@
 <template>
-  <div class="widgetSetting">
+  <div class="setting-content">
     <el-tabs type="border-card">
       <el-tab-pane label="样式">
         <attrConfig :data="data" />
       </el-tab-pane>
       <el-tab-pane label="数据">
-        <div
-          class="style-pannel .pannal dataPannal"
-          v-for="pageComponent in pageComponents"
-          v-show="pageComponent.uid == showSetting"
-        >
-          <h3>>{{ pageComponent.name.slice(0, 4) }}.v1.0.0</h3>
-          <el-input type="textarea" :rows="10" placeholder="请输入内容">
-          </el-input>
-        </div>
+        <span>數據部分</span>
       </el-tab-pane>
       <el-tab-pane label="交互">
-        <div class="interactive-pannel .pannal">
-          <h3>
-            <span style="padding: 0">交互配置</span>
-          </h3>
-        </div>
+        <h3>
+          <span style="padding: 0">交互配置</span>
+        </h3>
       </el-tab-pane>
     </el-tabs>
   </div>
@@ -33,11 +23,17 @@ export default {
   },
   data() {
     return {
-	  pageComponents: [],
-	  data: {
-		  title: '组件名'
-	  }
+      pageComponents: [],
+      data: {
+        title: "组件名",
+      },
     };
   },
 };
 </script>
+<style lang="scss" scoped>
+.setting-content {
+  position: relative;
+  height:100%;
+}
+</style>

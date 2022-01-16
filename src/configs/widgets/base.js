@@ -1,4 +1,5 @@
 export default {
+    title:'',
     posX: 200,
     posY: 200,
     width: 200,

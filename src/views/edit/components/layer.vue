@@ -171,6 +171,5 @@ export default {
 
 <style scoped lang="scss">
 .layer {
-  border-right: 1px solid #dcdee3;
 }
 </style>

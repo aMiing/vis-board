@@ -1,5 +1,5 @@
 <template>
-  <div class="widgets">
+  <div class="widgets-list">
     <el-menu
       class="el-menu-demo"
       mode="horizontal"
@@ -115,6 +115,17 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.widgets-list {
+  width: 100%;
+  height: 100%;
+  ::v-deep .el-menu--horizontal {
+    .el-submenu {
+      .el-submenu__title {
+        height: 60px;
+      }
+    }
+  }
+}
 .charts-content {
   display: flex;
   justify-content: start;

@@ -2,6 +2,7 @@
 <template>
   <div
     ref="commonText"
+    class="widget"
     :style="{
       width: data.width + 'px',
       height: data.height + 'px',

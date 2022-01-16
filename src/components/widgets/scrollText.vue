@@ -1,28 +1,27 @@
 <!-- 组件库 滚动卡片 -->
 
-<template id="my-scrollText">
-  <div ref="titleText">
-    <div
-      :style="{
-        fontWeight: data.fontWeight,
-        fontFamily: data.fontFamily,
-        fontSize: data.fontSize,
-        color: data.color,
-        width: data.width + 'px',
-        height: data.height + 'px',
-      }"
+<template>
+  <div
+    class="scrollText"
+    :style="{
+      fontWeight: data.fontWeight,
+      fontFamily: data.fontFamily,
+      fontSize: data.fontSize,
+      color: data.color,
+      width: data.width + 'px',
+      height: data.height + 'px',
+      backgroundColor: data.bgcolor,
+    }"
+  >
+    <marquee
+      :width="data.width"
+      :behavior="data.behavior"
+      :direction="data.direction"
+      :scrollamount="data.scrollamount"
+      :bgcolor="data.bgcolor"
     >
-      <marquee
-        :width="data.width"
-        :height="data.height"
-        :behavior="data.behavior"
-        :direction="data.direction"
-        :scrollamount="data.scrollamount"
-        :bgcolor="data.bgcolor"
-      >
-        {{ data.text }}
-      </marquee>
-    </div>
+      {{ data.text }}
+    </marquee>
   </div>
 </template>
 
@@ -69,13 +68,13 @@ export default {
         this.$el.style.border = "0.1px solid #6bf";
       }
       //切换属性设置面板
-      let pageSetting = this.$parent.$el.childNodes[8].getElementsByClassName(
-        "pageSetting"
-      )[0];
+      let pageSetting =
+        this.$parent.$el.childNodes[8].getElementsByClassName("pageSetting")[0];
 
-      let widgetSetting = this.$parent.$el.childNodes[8].getElementsByClassName(
-        "widgetSetting"
-      )[0];
+      let widgetSetting =
+        this.$parent.$el.childNodes[8].getElementsByClassName(
+          "widgetSetting"
+        )[0];
       //console.log(widgetSetting);
       pageSetting.style.display = "none";
       widgetSetting.style.display = "block";
@@ -170,6 +169,11 @@ export default {
 };
 </script>
 
-<style slot-scope lang="scss">
-@import "~scss_vars";
+<style scoped lang="scss">
+.scrollText {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
 </style>

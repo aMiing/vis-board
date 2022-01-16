@@ -84,15 +84,7 @@ export default {
     width: 600px;
     text-align: center;
     color: #fff;
-    .el-menu {
-      background-color: #373d41;
-    }
-    .el-menu--horizontal .el-submenu > .el-menu {
-      width: 545px;
-    }
-    .el-menu--popup-bottom-start {
-      background-color: #171b22;
-    }
+    height: 40px;
     .el-menu--horizontal .el-menu-item {
       float: left;
       width: 33%;
@@ -103,10 +95,6 @@ export default {
       .el-menu {
         background-color: #373d41;
       }
-    }
-    .el-menu-item.is-active {
-      /* background-color: #00c1de; */
-      box-shadow: 0 0 1px #2196f3;
     }
   }
   .userinfo {

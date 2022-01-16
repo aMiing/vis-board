@@ -1,147 +1,103 @@
 <template>
-  <div class="pageSetting">
-    <div class="style-pannel .pannal">
-      <h3
-        style="
-          padding: 9px 0;
-          margin: 0;
-          width: 100%;
-          text-align: center;
-          border-bottom: 1px solid #ccc;
-        "
-      >
-        <span>{{ screenSet.title }}</span>
-      </h3>
-      <div class="contain" style="padding: 5px 5px 0 20px; font-size: 12px">
-        <div
-          class="screenSize contain-item"
-          style="line-height: 35px; height: 50px"
-        >
-          <span>屏幕大小</span>
-          <div class="data-right" style="margin-left: 120px">
-            <div class="screenWidth input-num">
+  <div class="setting-content">
+    <div class="screen-title">屏幕名称：{{ screenConfig.title || "--" }}</div>
+    <div class="main">
+      <el-form ref="form" :model="screenConfig" label-width="80px">
+        <el-form-item label="屏幕大小">
+          <div class="size">
+            <div class="width">
+              <span>宽度</span>
               <el-input-number
-                v-model="screenWidth"
+                v-model="screenConfig.width"
                 size="small"
                 :min="975"
                 :max="4000"
-                disabled
               ></el-input-number>
-              <span>宽度</span>
             </div>
-
-            <div class="screenWidth input-num">
+            <div class="height">
+              <span>高度</span>
               <el-input-number
-                v-model="screenHeight"
+                v-model="screenConfig.height"
                 size="small"
                 :min="400"
                 :max="2200"
-                disabled
               ></el-input-number>
-              <span>高度</span>
             </div>
           </div>
-        </div>
-        <div class="backgroundImg contain-item" style="line-height: 40px">
-          <span>背景图片</span>
-          <div class="data-right" style="margin-left: 60px">
-            <div class="imgContainer">
-              <div
-                alt="背景图片"
-                style="
-                  background-size: 100% 100%;
-                  width: 90px;
-                  height: 60px;
-                  box-shadow: 0 0 1px #6bf;
-                  margin: 0 auto 10px;
-                "
-                :style="{ backgroundImage: screenSet.bgimg }"
-              ></div>
-              <p style="font-size: 0.8em; color: #888; margin: -10px">
-                点击或将文件拖拽到这里更换
-              </p>
-            </div>
-          </div>
-          <el-form label-width="80px" size="mini" style="margin-left: 40px">
-            <el-form-item label="">
-              <el-input style="display: none"></el-input>
-              <el-input placeholder="粘贴图片url于此处"></el-input>
-            </el-form-item>
-          </el-form>
-          <div style="display: table">
-            <span style="display: table-cell; vertical-align: middle"
-              >背景颜色</span
-            >
-            <span class="data-right" style="margin-left: 70px">
-              <el-color-picker
-                v-model="screenSet.BgColor"
-                show-alpha
-                :predefine="predefineColors"
-              >
-              </el-color-picker>
-            </span>
-          </div>
-        </div>
-        <div class="zoomType contain-item" style="line-height: 40px">
-          <span>缩放方式</span>
-          <div class="data-right" style="margin-left: 60px">
-            <el-radio type="radio" v-model="zoomType" label="fill-width"
-              >等比缩放宽度铺满</el-radio
-            >
-            <el-radio type="radio" v-model="zoomType" label="fill-height"
-              >等比缩放高度铺满</el-radio
-            >
-            <el-radio type="radio" v-model="zoomType" label="fill-screen"
-              >全屏铺满</el-radio
-            >
-          </div>
-        </div>
-        <div class="backgroundImg contain-item" style="line-height: 40px">
-          <div>
-            <span>栅格间距</span>
-            <span class="data-right" style="margin-left: 70px">
-              <el-input-number
-                v-model="Space"
-                size="small"
-                :precision="1"
-                :step="0.5"
-                :max="10"
-              >
-              </el-input-number>
-            </span>
-          </div>
-          <div>
-            <span>封面样式</span>
-            <span class="data-right" style="margin-left: 70px">
-              <el-button type="primary" plain>截取封面</el-button>
-              <img
-                src="@/assets/bg.png"
-                alt="背景图片"
-                width="180"
-                height="120"
-                style="margin: 5px 0 0 120px"
-              />
-            </span>
-          </div>
-        </div>
+        </el-form-item>
 
-        <div class="reNew contain-item" style="line-height: 40px; border: 0">
-          <div style="margin-top: 5px">
-            <span>重置</span>
-            <span class="data-right" style="margin-left: 92px">
-              <el-button type="primary" plain>恢复默认背景</el-button>
-            </span>
-          </div>
-        </div>
+        <el-form-item label="背景颜色">
+          <el-color-picker
+            v-model="screenConfig.backgroundColor"
+            show-alpha
+            :predefine="predefineColors"
+          >
+          </el-color-picker>
+        </el-form-item>
+        <el-form-item label="背景图片">
+          <el-upload
+            class="upload-demo"
+            drag
+            action="https://jsonplaceholder.typicode.com/posts/"
+            multiple
+          >
+            <i class="el-icon-upload"></i>
+            <div class="el-upload__text">
+              将文件拖到此处，或<em>点击上传</em>
+            </div>
+            <div class="el-upload__tip" slot="tip">
+              只能上传jpg/png文件，且不超过500kb
+            </div>
+          </el-upload>
+        </el-form-item>
+
+        <el-form-item label="缩放方式">
+          <el-select v-model="screenConfig.zoomType" placeholder="请选择">
+            <el-option
+              v-for="item in zoomType"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value"
+            >
+            </el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item label="封面样式">
+          <el-button type="primary" plain>截取封面</el-button>
+          <img
+            :src="screenShot"
+            alt="背景图片"
+            width="180"
+            height="120"
+          />
+        </el-form-item>
+        <el-form-item label="網格间距">
+          <el-input-number
+            v-model="screenConfig.grideSpace"
+            size="small"
+            :precision="1"
+            :step="1"
+            :max="50"
+          >
+          </el-input-number>
+        </el-form-item>
+      </el-form>
+
+      <div class="operation-content">
+        <el-button type="primary" plain>重置</el-button>
+        <el-button type="primary" plain>恢复默认背景</el-button>
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import screenConfig from "@/configs/screen";
 export default {
   data() {
     return {
+      screenConfig: { ...screenConfig },
+      screenShot: require('@/assets/bg.png'),
       screenSet: {},
       screenWidth: 600,
       screenHeight: 400,
@@ -163,7 +119,51 @@ export default {
         "hsla(209, 100%, 56%, 0.73)",
         "#c7158577",
       ],
+      zoomType: [
+        {
+          value: "fill-width",
+          label: "等比缩放宽度铺满",
+        },
+        {
+          value: "fill-height",
+          label: "等比缩放高度铺满",
+        },
+        {
+          value: "fill-screen",
+          label: "全屏铺满",
+        },
+      ],
     };
   },
 };
 </script>
+
+<style lang="scss" scoped>
+.setting-content {
+  position: relative;
+  height: 100%;
+}
+.screen-title {
+  margin: 0;
+  height: 40px;
+  line-height: 40px;
+  text-align: center;
+  border-bottom: 1px solid #ccc;
+}
+.main {
+  padding: 12px 12px 24px;
+  font-size: 12px;
+  overflow-y: auto;
+  height: calc(100% - 40px);
+
+  .size {
+    display: flex;
+    flex-direction: column;
+    height: 70px;
+    justify-content: space-between;
+  }
+  .operation-content {
+    text-align: center;
+  }
+}
+</style>

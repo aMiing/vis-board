@@ -216,7 +216,6 @@ export default {
 </style>
 
 <style scoped lang="scss">
-@import "~scss_vars";
 //設置小圖標
 .fa-align-justify:before {
   content: "\F124";
@@ -307,13 +306,6 @@ export default {
           color: #ddd;
           font-weight: 600;
         }
-      }
-      .el-dropdown-menu__item--divided:before,
-      .el-menu,
-      .el-menu--horizontal > .el-menu-item:not(.is-disabled):focus,
-      .el-menu--horizontal > .el-menu-item:not(.is-disabled):hover,
-      .el-menu--horizontal > .el-submenu .el-submenu__title:hover {
-        background: none;
       }
     }
   }

@@ -158,7 +158,7 @@ export default {
   methods: {
     getPanelList() {
       //   获取panelList
-      const list = window.localStorage.getItem("panelListStr");
+      const list = window.localStorage.getItem("panelListStr") || "[]";
       this.panels = JSON.parse(list);
     },
     createNewPanel() {

@@ -5,9 +5,9 @@
       <common-header></common-header>
     </header>
     <!-- 主功能区 -->
-    <main class="main">
+    <div class="main">
       <!-- 左侧层级区域 -->
-      <aside class="layer">
+      <aside class="layer-panel">
         <!-- 折叠按钮 -->
         <el-button
           @click.prevent="collapse"
@@ -27,8 +27,8 @@
         <layerPage />
       </aside>
       <!-- 中心舞台 -->
-      <section class="screen-content" @click="screenSetting()">
-        <mainScreen />
+      <section class="screen-content">
+        <mainScreen @updateActive="updateActive" />
       </section>
       <!-- 右侧设置面板 -->
       <aside class="config-panel">
@@ -52,15 +52,13 @@
             title="折叠/展开"
           ></i>
         </el-button>
-        <configPage />
+        <configPage :type="currentType" />
       </aside>
-    </main>
+    </div>
   </div>
 </template>
 
 <script>
-import VueDragResizeRotate from "@gausszhou/vue-drag-resize-rotate";
-
 import commonHeader from "./components/header";
 import configPage from "./components/config-page";
 import layerPage from "./components/layer";
@@ -68,7 +66,6 @@ import mainScreen from "./components/main-screen";
 
 export default {
   components: {
-    VueDragResizeRotate,
     commonHeader,
     configPage,
     layerPage,
@@ -90,20 +87,8 @@ export default {
       screenWidth: 1,
       screenHeight: 1,
       tabPosition: "left",
-      positionOptions: [
-        {
-          value: "center",
-          label: "居中",
-        },
-        {
-          value: "left",
-          label: "居左",
-        },
-        {
-          value: "right",
-          label: "居右",
-        },
-      ],
+      currentType: "screen",
+      currentId: "",
     };
   },
   // watch
@@ -150,25 +135,11 @@ export default {
       //计划执行保存操作
     };
   },
-  beforeUpdate: function () {
-    let screenPannel = document.getElementsByClassName("screenPannel")[0];
-    // this.screenBgImg = this.screenSet.bgimg;
-  },
-  updated: function () {
-    // console.log('updata');
-  },
-  activabled: function () {},
   methods: {
-    resizing({ x, y, w, h }, item) {
-      // item.posX = x;
-      // item.posY = y;
-      item.width = w;
-      item.height = h;
-    },
-    moveIt({ x, y, target }) {
-      target.posY = y;
-      target.posX = x;
-      console.log(target, x, y);
+    updateActive({ type, id = "" }) {
+      console.log(type, id);
+      this.currentType = type;
+      this.currentId = id;
     },
     saveChange() {
       /*	let url_saveScreen = 'http://localhost:8888/saveScreenSetting';
@@ -221,42 +192,6 @@ export default {
     pannelResize() {
       console.log(this.$refs.pannel.clientWidth);
     },
-    loadSetting(id) {
-      // console.log(this.pageComponents);
-      this.showSetting = "uid_" + id;
-      /*设置左侧图层列表，点击激活
-				思路：先获取所有图层，取消激活状态，再给点击的图层增加激活态*/
-      let allList = document.getElementsByClassName("z-axis-item");
-      let theList;
-      for (let i = 0; i < allList.length; i++) {
-        allList[i].style.background = "#1b1f25";
-        allList[i].getElementsByTagName("input")[0].checked = false;
-      }
-
-      let self = this;
-      for (let h = 0; h < self.pageComponents.length; h++) {
-        if (self.pageComponents[h].uid == "uid_" + id) {
-          theList = allList[h];
-        }
-      }
-      theList.style.background = "rgba(50,180,255,.8)";
-      theList.getElementsByTagName("input")[0].checked = true;
-      //console.log(theList.getElementsByTagName('input'));
-    },
-    changeSize(size) {
-      // console.log(this.pageComponents);
-      let self = this;
-      for (let i = 0; i < self.pageComponents.length; i++) {
-        if (self.pageComponents[i].uid == size.uid) {
-          self.pageComponents[i].widgetWidth = Math.round(size.width * 10) / 10;
-          self.pageComponents[i].widgetHeight =
-            Math.round(size.height * 10) / 10;
-          return;
-        }
-      }
-      //console.log(size.width);
-      //console.log(this.pageComponents[size.theId].widgetWidth);
-    },
     changePosition(position) {
       // console.log(this.pageComponents);
       let self = this;
@@ -306,8 +241,8 @@ export default {
 				}*/
       // alert("预览？");
       /*点击预览之前应该先执行保存操作，完成之后再跳转进行预览*/
-      var content = document.getElementsByClassName("screenPannel")[0]
-        .innerHTML;
+      var content =
+        document.getElementsByClassName("screenPannel")[0].innerHTML;
       console.log(content);
       let pageId = window.location.href.split("=")[1];
       //1、上传数据到服务器思路
@@ -325,31 +260,6 @@ export default {
         });
       //跳转预览界面
       window.open("http://localhost:8080/#/preview?id=" + pageId);
-    },
-    screenSetting() {
-      //框定除了编辑面板之外的部分
-      // this.$refs.pannel.onclick = function (e) {
-      //   e.stopPropagation();
-      // };
-      var pageSetting = document.getElementsByClassName("pageSetting")[0];
-      var widgetSetting = document.getElementsByClassName("widgetSetting")[0];
-      //去除元素选中状态
-      var allDrags = document.getElementsByClassName("drag");
-      //去除其他元素的边框
-      for (let m = 0; m < allDrags.length; m++) {
-        allDrags[m].style.border = "0";
-        //console.log(allDrags[m].style);
-      }
-      /*获取所有的 .btn 并且设置为隐藏状态*/
-      var allBtns = document.getElementsByClassName("btn");
-      for (let q = 0; q < allBtns.length; q++) {
-        //console.log('iii');
-        allBtns[q].style.visibility = "hidden";
-      }
-      //更换属性配置面板
-      pageSetting.style.display = "block";
-      widgetSetting.style.display = "none";
-      //console.log();
     },
     changeIcon() {
       console.log(this.collapsed1);
@@ -475,10 +385,7 @@ a:active {
   background: #000;
   color: #fff;
 }
-.el-button--small,
-.el-button--small.is-round {
-  padding: 6px 8px;
-}
+
 .el-button--medium {
   margin-right: 28px;
   font-size: 20px;
@@ -501,12 +408,6 @@ i:hover {
 .components-item > p {
   text-align: center;
 }
-.el-menu--horizontal {
-  border-bottom: 0;
-}
-.el-menu--horizontal > .el-submenu .el-submenu__title:hover {
-  background-color: #373d41;
-}
 .el-form-item__content {
   margin-left: 80px;
 }
@@ -520,22 +421,12 @@ i:hover {
 .el-radio + .el-radio {
   margin-left: 8px;
 }
-.el-menu--horizontal > .el-submenu .el-submenu__title {
-  height: 40px;
-  line-height: 40px !important;
-}
 .el-submenu__title i {
   color: #ccc;
 }
-.el-tabs--border-card > .el-tabs__header {
-  background-color: #1b1f25;
-}
+
 .el-collapse-item__wrap {
   background-color: #1b1f25;
-}
-.el-collapse-item__header {
-  background-color: #1b1f25;
-  color: #ccc;
 }
 .el-form-item__label {
   color: #ccc;
@@ -546,12 +437,6 @@ i:hover {
 </style>
 
 <style scoped lang="scss">
-@import "~scss_vars";
-
-aside {
-  background-color: #1b1f25 !important;
-  color: #ccc !important;
-}
 .drag > btn {
   visiblty: none;
 }
@@ -577,10 +462,6 @@ aside {
 .el-menu {
   background: #373d41;
 }
-.el-menu--horizontal .el-submenu > .el-menu {
-  width: 545px;
-  background-color: #222225;
-}
 .components-item[data-v-498a33db],
 .target-item[data-v-498a33db] {
   color: #999;
@@ -596,9 +477,6 @@ aside {
 .el-menu-item,
 .el-submenu__title:hover {
   background-color: #373d41;
-}
-.el-menu--horizontal .el-menu-item[data-v-498a33db] {
-  height: 40px;
 }
 i {
   cursor: pointer;
@@ -711,10 +589,6 @@ li {
   margin-right: 5px;
   /* 	    top: 10px; */
 }
-.el-collapse-item__header {
-  color: #333;
-  border-left: 0;
-}
 .pannal {
   border-bottom: 1px solid #ccc;
 }
@@ -723,14 +597,6 @@ li {
   height: 45px;
   line-height: 45px;
   background: #fff;
-  color: #333;
-}
-.el-menu--horizontal .el-menu-item {
-  float: left;
-  width: 33%;
-  height: 45px;
-  line-height: 45px;
-  /* background:#fff; */
   color: #333;
 }
 .el-menu-item.is-active {
@@ -744,12 +610,6 @@ li {
 }
 .el-button + .el-button {
   margin-left: 0px;
-}
-aside {
-  color: #666;
-  background-color: #f4f4f4;
-  border-right: 1px solid #333;
-  overflow: hidden;
 }
 .navbar-item {
   margin: 0;
@@ -779,15 +639,22 @@ aside {
     display: flex;
     justify-content: space-between;
     width: 100%;
+    height: calc(100% - 40px);
     el-button {
       cursor: pointer;
     }
     aside {
-      flex: 0 0 230px;
-      width: 230px;
-      // position: absolute;
-      // top: 0px;
-      // bottom: 0px;
+      color: #666;
+      background-color: #f4f4f4;
+      overflow: hidden;
+      &.config-panel {
+        flex: 0 0 360px;
+        border-left: 1px solid #dcdee3;
+      }
+      &.layer-panel {
+        flex: 0 0 300px;
+        border-right: 1px solid #dcdee3;
+      }
       .el-menu {
         height: 100%;
       }
@@ -823,17 +690,10 @@ aside {
       width: 360px;
     }
     .screen-content {
-      // background: #f1f2f7;
       flex: 1;
-      // position: absolute;
-      // right: 0px;
-      // top: 0px;
-      // bottom: 0px;
-      // left: 230px;
-      overflow-y: scroll;
-      padding: 20px;
+      overflow: hidden;
+      margin: 20px;
       .breadcrumb-container {
-        //margin-bottom: 15px;
         .title {
           width: 200px;
           float: left;

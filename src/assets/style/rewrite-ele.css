@@ -1,0 +1,15 @@
+.el-upload-dragger {
+    width: 220px;
+    height: 150px;
+}
+.el-tabs--border-card {
+    height: 100%;
+}
+.el-tabs--border-card > .el-tabs__content {
+    height: calc(100% - 40px);
+    overflow-y: auto;
+}
+.el-menu--horizontal>.el-submenu .el-submenu__title {
+    height:40px;
+    line-height: 40px;
+}

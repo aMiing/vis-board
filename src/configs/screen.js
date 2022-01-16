@@ -1,4 +1,6 @@
 export default {
+    title: '',
+    zoomType: 'fill-width',
     width: 1920,
     height: 1080,
     whUnit: "px",
@@ -9,4 +11,5 @@ export default {
     fontUnit: "px",
     fontWeight: 400,
     fontFamily: "",
+    grideSpace: 10
 };

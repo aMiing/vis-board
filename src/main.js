@@ -3,7 +3,7 @@ import App from "./App";
 import VCharts from "v-charts";
 import ElementUI from "element-ui";
 import "element-ui/lib/theme-chalk/index.css";
-//import './assets/theme/theme-green/index.css'
+import './assets/style/rewrite-ele.css'
 import VueRouter from "vue-router";
 import store from "@/store/index.js";
 import routes from "@/router";

@@ -1,50 +1,46 @@
 <template>
     <div class="attr-setting" >
-        <h3>
-            <span style="padding:0">{{data.name}}.v1.0.0</span>
-        </h3>
-        <el-form  label-width="80px" size="mini">
-            <el-form-item label="标题名称">
+        <div class="title">
+            <span style="padding:0">{{data.name}} v1.0.0</span>
+        </div>
+        <div class="main">
+            <el-form  label-width="80px" size="mini">
+                <el-form-item label="标题名称">
+                    <el-input v-model="data.name" @blur="changeStyle(data.id)"></el-input>
+                </el-form-item>
+                <el-form-item label="图表尺寸(%)">
+                    
+                <div class="size" >
+                    <div class="widgetWidth input-num">
+                        <span>宽度</span>
+                        <el-input-number ref='widgetWidth'  v-model="data.widgetWidth" size="small"  :min="1" :max="100" ></el-input-number>
+                    </div>
+                    <div class="widgetHeight input-num">
+                        <span>高度</span>
+                        <el-input-number ref="widgetHeight" v-model="data.widgetHeight" size="small"  :min="1" :max="100" ></el-input-number>
+                    </div>
+                </div>
+                </el-form-item>
+                <el-form-item label="图表位置(%)">
+                    <div class="size">
+                        <div class="widgetTop input-num">
+                            <span>横坐标</span>
+                            <el-input-number ref="widgetLeft" v-model="data.widgetLeft" size="small"  :min="-20" :max="100" ></el-input-number>
+                        </div>
+                        <div class="widgetTop input-num">
+                            <span>纵坐标</span>
+                            <el-input-number ref="widgetTop" v-model="data.widgetTop"  size="small" :min="-20" :max="100" ></el-input-number>
+                        </div>
+                    </div>
+                    
+                </el-form-item>
+                <el-form-item label="文本内容" >
                 <el-input style="display: none;"></el-input>
-                <el-input v-model="data.name" @blur="changeStyle(data.id)"></el-input>
-            </el-form-item>
-        </el-form>
-        <!-- 尺寸和位置属性 -->
-        <div class="size contain-item" >
-            <span>图表尺寸(%)</span>
-            <div class="data-right" style="margin-left: 90px;">
-                <div class="widgetWidth input-num">
-                    <el-input-number ref='widgetWidth'  v-model="data.widgetWidth" size="small"  :min="1" :max="100" ></el-input-number>
-                    <span>宽度</span>
-                </div>
-                
-                <div class="widgetHeight input-num">
-                    <el-input-number ref="widgetHeight" v-model="data.widgetHeight" size="small"  :min="1" :max="100" ></el-input-number>
-                    <span>高度</span>
-                </div>
-            </div>
-        </div>
-        <div class="position contain-item" >
-            <span>图表位置(%)</span>
-            <div class="data-right" style="margin-left: 90px;">
-                <div class="widgetLeft input-num">
-                    <el-input-number ref="widgetLeft" v-model="data.widgetLeft" size="small"  :min="-20" :max="100" ></el-input-number>
-                    <span>横坐标</span>
-                </div>
-                
-                <div class="widgetTop input-num">
-                    <el-input-number ref="widgetTop" v-model="data.widgetTop"  size="small" :min="-20" :max="100" ></el-input-number>
-                    <span>纵坐标</span>
-                </div>
-            </div>
-        </div>
+                <el-input type="textarea" :rows="1" v-model="data.text" @change="changeStyle(data.id)"></el-input>
+                </el-form-item>
+            </el-form>
+       
         
-        <el-form ref="form" label-width="80px" size="mini" style="margin:15px 0 -15px">
-            <el-form-item label="文本内容" >
-            <el-input style="display: none;"></el-input>
-            <el-input type="textarea" :rows="1" v-model="data.text" @change="changeStyle(data.id)"></el-input>
-            </el-form-item>
-        </el-form>
         <el-collapse v-model="activeNames" style="border-left:0;" >
             <el-collapse-item title="文本样式" name="1" >
             <el-form>
@@ -417,6 +413,7 @@
             </el-collapse-item>
 
         </el-collapse>
+         </div>
     </div>	
 </template>
 
@@ -504,6 +501,21 @@ export default {
 <style scoped lang="scss">
 .attr-setting {
   //   background-color: #1b1f25;
+  .title {
+    height: 40px;
+    line-height: 40px;
+    border-bottom: 1px solid #ccc;
+  }
+  .main {
+    padding: 12px;
+
+    .size {
+      display: flex;
+      flex-direction: column;
+      height: 70px;
+      justify-content: space-between;
+    }
+  }
   .contain-item {
     line-height: 35px;
     height: 55px;
