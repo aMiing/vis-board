@@ -104,16 +104,15 @@ export default {
     },
   },
   mounted() {
-    this.resizeDebounce();
+    // this.resizeDebounce();
     //   监听resize，缩放画布
-    window.addEventListener("resize", this.resizeDebounce);
+    // window.addEventListener("resize", this.resizeDebounce);
   },
   beforeDestroy() {
-    window.removeEventListener("resize", this.resizeDebounce);
+    // window.removeEventListener("resize", this.resizeDebounce);
   },
   methods: {
     stageResize() {
-      console.log(this, this.scale);
       const { width } = this.$refs.screen.parentNode.getBoundingClientRect();
       this.scale = width / this.screen.width;
       console.log("width", width, this.scale);

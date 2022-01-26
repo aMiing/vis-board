@@ -29,6 +29,23 @@ body {
   -webkit-font-smoothing: antialiased;
   * {
     box-sizing: border-box;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+  }
+
+  /*滚动条样式*/
+  ::-webkit-scrollbar {
+    /*滚动条整体样式*/
+    width: 5px; /*高宽分别对应横竖滚动条的尺寸*/
+    height: 5px;
+  }
+  ::-webkit-scrollbar-thumb {
+    /*滚动条里面小方块*/
+    border-radius: 5px;
+    box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.6);
+    background: rgba(0, 0, 0, 0.6);
   }
 }
 
@@ -38,35 +55,5 @@ body {
   bottom: 0px;
   left: 0;
   right: 0;
-}
-
-.el-submenu [class^="fa"] {
-  vertical-align: baseline;
-  margin-right: 10px;
-}
-
-.el-menu-item [class^="fa"] {
-  vertical-align: baseline;
-  margin-right: 10px;
-}
-
-.toolbar {
-  background: #f2f2f2;
-  padding: 10px;
-  //border:1px solid #dfe6ec;
-  margin: 10px 0px;
-  .el-form-item {
-    margin-bottom: 10px;
-  }
-}
-
-.fade-enter-active,
-.fade-leave-active {
-  transition: all 0.2s ease;
-}
-
-.fade-enter,
-.fade-leave-active {
-  opacity: 0;
 }
 </style>

@@ -1,89 +1,84 @@
 <template>
   <div class="layer">
-    <aside
-      id="aside-left"
-      :class="collapsed1 ? 'menu-collapsed' : 'menu-expanded'"
-      style=""
-    >
-      <div class="side-head" style="width: 100%; text-align: center">
-        <h3 style="margin: 10px 0">
-          <span>控件列表</span>
-        </h3>
-        <div
-          style="
-            background: none;
-            height: 22px;
-            padding: 5px 0;
-            border-bottom: 1px solid #bbb;
-          "
+    <div class="side-head" style="width: 100%; text-align: center">
+      <h3 style="margin: 10px 0">
+        <span>控件列表</span>
+      </h3>
+      <div
+        style="
+          background: none;
+          height: 22px;
+          padding: 5px 0;
+          border-bottom: 1px solid #bbb;
+        "
+      >
+        <el-tooltip
+          class="item"
+          effect="dark"
+          content="上移一层"
+          placement="top-start"
         >
-          <el-tooltip
-            class="item"
-            effect="dark"
-            content="上移一层"
-            placement="top-start"
-          >
-            <el-button type="text" size="small"
-              ><i class="iconfont icon-line-up"></i
-            ></el-button>
-          </el-tooltip>
-          <el-tooltip
-            class="item"
-            effect="dark"
-            content="下移一层"
-            placement="bottom"
-          >
-            <el-button type="text" size="small"
-              ><i class="iconfont icon-line-down"></i
-            ></el-button>
-          </el-tooltip>
-          <el-tooltip
-            class="item"
-            effect="dark"
-            content="置顶"
-            placement="top-start"
-          >
-            <el-button type="text" size="small"
-              ><i class="iconfont icon-zhiding"></i
-            ></el-button>
-          </el-tooltip>
-          <el-tooltip
-            class="item"
-            effect="dark"
-            content="置底"
-            placement="bottom-start"
-          >
-            <el-button type="text" size="small"
-              ><i class="iconfont icon-zhidi"></i
-            ></el-button>
-          </el-tooltip>
+          <el-button type="text" size="small"
+            ><i class="iconfont icon-line-up"></i
+          ></el-button>
+        </el-tooltip>
+        <el-tooltip
+          class="item"
+          effect="dark"
+          content="下移一层"
+          placement="bottom"
+        >
+          <el-button type="text" size="small"
+            ><i class="iconfont icon-line-down"></i
+          ></el-button>
+        </el-tooltip>
+        <el-tooltip
+          class="item"
+          effect="dark"
+          content="置顶"
+          placement="top-start"
+        >
+          <el-button type="text" size="small"
+            ><i class="iconfont icon-zhiding"></i
+          ></el-button>
+        </el-tooltip>
+        <el-tooltip
+          class="item"
+          effect="dark"
+          content="置底"
+          placement="bottom-start"
+        >
+          <el-button type="text" size="small"
+            ><i class="iconfont icon-zhidi"></i
+          ></el-button>
+        </el-tooltip>
+      </div>
+    </div>
+    <div class="z-axis-list">
+      <div
+        class="leftComponentList .drag"
+        v-for="(pageComponent, index) in pageComponents"
+      >
+        <div class="z-axis-item" @click="checkedIt">
+          <input type="checkbox" name="" id="" @click="checkBox" />
+          <i
+            :class="'iconfont icon-' + pageComponent.icon"
+            @click="checkBox"
+          ></i>
+          {{ pageComponent.name }}{{ index }}
         </div>
       </div>
-      <div class="z-axis-list">
-        <div
-          class="leftComponentList .drag"
-          v-for="(pageComponent, index) in pageComponents"
-        >
-          <div class="z-axis-item" @click="checkedIt">
-            <input type="checkbox" name="" id="" @click="checkBox" />
-            <i
-              :class="'iconfont icon-' + pageComponent.icon"
-              @click="checkBox"
-            ></i>
-            {{ pageComponent.name }}{{ index }}
-          </div>
-        </div>
-      </div>
-    </aside>
+    </div>
   </div>
 </template>
 
 <script>
 export default {
+  props: {
+  },
   data() {
     return {
       pageComponents: [],
-      collapsed1: false,
     };
   },
   methods: {
@@ -171,5 +166,6 @@ export default {
 
 <style scoped lang="scss">
 .layer {
+  width: 300px;
 }
 </style>
